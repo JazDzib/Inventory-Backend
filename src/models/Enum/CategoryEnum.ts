@@ -1,0 +1,8 @@
+export enum CategoryEnum {
+    ELECTRONICA = 'ELECTRONICA',
+    HOGAR = 'HOGAR',
+    FERRETERIA = ' FERRETERIA', 
+    ROPA = 'ROPA',
+    ALIMENTOS = 'ALIMENTOS',
+    PAPELERIA = 'PAPELERIA'
+}

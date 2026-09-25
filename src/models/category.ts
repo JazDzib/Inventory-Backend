@@ -2,10 +2,10 @@ import { DataTypes, Model} from "sequelize";
 import { sequelize } from "../database/sequelize";
 
 export class Category extends Model{
-    public id!: number;
-    public name!:string;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+    declare id: number;
+    declare name:string;
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
 }
 
 Category.init({

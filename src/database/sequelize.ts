@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import "dotenv/config";
 
+
 function requireEnv(name: string): string {
     const value = process.env[name];
     if (!value) {
@@ -23,8 +24,10 @@ export async function initDb(): Promise<void> {
   try {
     await sequelize.authenticate();
     console.log("Conexión a MySQL exitosa");
+
     await sequelize.sync({ alter: true });
     console.log("Tablas sincronizadas correctamente");
+    
   } catch (error) {
     console.error("Error al conectar a MySQL:", (error as Error).message);
     throw error;

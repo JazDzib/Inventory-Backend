@@ -1,16 +1,18 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/sequelize";
 import type { Category } from "./category";
+import { CategoryEnum } from "./Enum/CategoryEnum";
 
 export class Product extends Model{
-    public id!: number;
-    public name!: string;
-    public quantity!: number;
-    public price!: number;
-    public supplier!:Category;
-    public categoryId!: number;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+    declare id: number;
+    declare name: string;
+    declare quantity: number;
+    declare price: number;
+    declare supplier:CategoryEnum;
+    declare categoryId: number;
+    declare category?: Category;
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
 }
 
 Product.init({
@@ -28,21 +30,25 @@ Product.init({
         }
     },
     quantity:{
-        type:DataTypes.INTEGER,
+        type:DataTypes.INTEGER.UNSIGNED,
         allowNull:false,
          validate: { 
             min: { args: [0], msg: "La cantidad no puede ser negativa" } 
         },
     },
     price:{
-        type:DataTypes.DECIMAL,
+        type:DataTypes.DECIMAL(10, 2),
         allowNull:false,
+         get() {                                   // ← aquí, UNA vez
+            const value = this.getDataValue("price");
+            return value === null ? null : Number(value);
+        },
         validate: { 
             min: { args: [0.01], msg: "El precio debe ser mayor a 0" } 
         },
     },
     supplier:{
-        type: DataTypes.ENUM("Electrónica", "Hogar", "Ferretería", "Ropa", "Alimentos", "Papelería"),
+        type: DataTypes.ENUM(...Object.values(CategoryEnum)),
         allowNull:true
     },
     categoryId:{
