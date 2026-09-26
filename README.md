@@ -76,7 +76,6 @@ DB_PASSWORD=tu_password_segura
 - **Validaciones en el modelo (Sequelize)** — nombre (no vacío / máx 100), cantidad ≥ 0, precio > 0, e `isIn` para el enum de supplier.
 - **Validación de FK antes de escribir** — se consulta que `categoryId` exista antes del `create`.
 - **Manejo centralizado de errores** — `ApiError` + middleware de 4 parámetros → códigos 400/404/409/500 con mensajes claros.
-- **`sync` en desarrollo, migraciones en producción** — en dev las tablas se sincronizan desde los modelos; en prod se usan migraciones versionadas.
 - **Asociaciones en `models/index.ts`** — se importan ambos modelos y se registra la relación sin dependencias circulares.
 
 ## 📁 Estructura
