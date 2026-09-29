@@ -26,6 +26,58 @@ npm run dev
 
 El servidor queda en `http://localhost:3000`.
 
+## 🐳 Configuración Docker
+
+### `docker-compose.yml`
+
+```yaml
+services:
+  # Servicio de la API (Node.js)
+  app:
+    image: nurimiko/inventory-backend:v3
+    container_name: inventory-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=inventory_user
+      - DB_PASSWORD=inventory_password
+      - DB_NAME=inventory_db
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Servicio de Base de Datos (MySQL)
+  mysql:
+    image: mysql:8.0
+    container_name: inventory-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: inventory_db
+      MYSQL_USER: inventory_user
+      MYSQL_PASSWORD: inventory_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:
+```
+
+# Levantar la API y MySQL en segundo plano
+```bash
+docker compose up -d --build
+```
 
 ## 🔐 Variables de entorno (`.env`)
 
